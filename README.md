@@ -17,5 +17,5 @@ DateTime либо в порядке прихода события для рав�
 
 * To start processing the DateTimeCallableConsumer.start() method should be invoked
 * To stop processing the DateTimeCallableConsumer.interrupt() method should be invoked
-* The DateTimeCallableConsumer.accept(Instant, Callable) method schedule callable execution at Instant time
+* The DateTimeCallableConsumer.accept(Instant, Callable) method schedule Callable execution at Instant time
 
