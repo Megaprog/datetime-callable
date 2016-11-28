@@ -9,7 +9,7 @@
     <version>1.0-SNAPSHOT</version>
 
 	<name>DateTime Callable</name>
-    <description>Execute Callable at DateTime</description>
+    <description>Execute Callable at specified DateTime</description>
     <url>https://github.com/Megaprog/datetime-callable</url>
 
 	<developers>
