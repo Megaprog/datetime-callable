@@ -9,4 +9,13 @@ Callable для каждого пришедшего события в указа
 Задачи должны выполняться в порядке согласно значению  
 DateTime либо в порядке прихода события для равных DateTime.  
 События могут приходить в произвольном порядке и добавление   
-новых пар (DateTime, Callable) может вызываться из разных потоков.
+новых пар (DateTime, Callable) может вызываться из разных потоков.  
+     
+- - -
+
+### Tips
+
+* To start processing the DateTimeCallableConsumer.start() method should be invoked
+* To stop processing the DateTimeCallableConsumer.interrupt() method should be invoked
+* The DateTimeCallableConsumer.accept(Instant, Callable) method schedule callable execution at Instant time
+

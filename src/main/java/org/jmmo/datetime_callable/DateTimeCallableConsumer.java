@@ -12,7 +12,7 @@ public class DateTimeCallableConsumer extends Thread implements BiConsumer<Insta
     private static Logger log = Logger.getLogger(DateTimeCallableConsumer.class.getName());
 
     protected final AtomicLong counter = new AtomicLong();
-    protected final BlockingQueue<Task> queue = createDelayedQueue();
+    protected final BlockingQueue<Task> queue = createBlockingQueue();
 
     @Override
     public void accept(Instant instant, Callable<?> callable) {
@@ -30,9 +30,9 @@ public class DateTimeCallableConsumer extends Thread implements BiConsumer<Insta
                 try {
                     log.fine(() -> "Starting the task " + task);
 
-                    task.getCallable().call();
+                    final Object result = task.getCallable().call();
 
-                    log.fine(() -> "Completed the task " + task);
+                    log.fine(() -> "Completed the task " + task + " with result " + result);
                 } catch (Exception e) {
                     log.log(Level.WARNING, "The task " + task + " cause exception", e);
                 }
@@ -44,11 +44,15 @@ public class DateTimeCallableConsumer extends Thread implements BiConsumer<Insta
         }
     }
 
-    protected DelayQueue<Task> createDelayedQueue() {
+    protected DelayQueue<Task> createBlockingQueue() {
         return new DelayQueue<>();
     }
 
-    public static class Task implements Delayed {
+    protected Instant getInstant() {
+        return Instant.now();
+    }
+
+    protected class Task implements Delayed {
         final long executionTime;
         final Callable<?> callable;
         final long number;
@@ -61,7 +65,7 @@ public class DateTimeCallableConsumer extends Thread implements BiConsumer<Insta
 
         @Override
         public long getDelay(TimeUnit unit) {
-            return unit.convert(getExecutionTime() - Instant.now().toEpochMilli(), TimeUnit.MILLISECONDS);
+            return unit.convert(getExecutionTime() - getInstant().toEpochMilli(), TimeUnit.MILLISECONDS);
         }
 
         @Override
